@@ -1,0 +1,117 @@
+---
+title: "Analytical Method Validation Report"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+always_allow_html: true
+params:
+  dataset: NULL
+  outliers_estd: NULL
+  outliers_std: NULL
+  coefficients_overlap: NULL
+  coefficients_overlap_plot: NULL
+  regression_plot: NULL
+  residual_plot: NULL
+  regression: NULL
+  coef.determination: NULL
+  levene: NULL
+  durbin_watson: NULL 
+  shapiro_wilk: NULL
+  anova: NULL
+  limits_result: NULL
+---
+
+### Dataset Summary
+```{r echo=F}
+params$dataset %>%
+  knitr::kable(caption = "") 
+
+```
+## Selectivity
+### Results to Matrix Effect
+ Bonferroni Outliers Test to External Standard
+```{r echo=F}
+params$outliers_estd %>%
+  knitr::kable(caption = "") 
+```
+
+ Bonferroni Outliers Test to Standard Additions
+```{r echo=F}
+params$outliers_std %>%
+  knitr::kable(caption = "") 
+```
+
+ Plot overlap 
+ 
+ The linear regression performed to different methods plotted together
+```{r echo=F, message=FALSE, warning=FALSE, fig.height=3.5, fig.width=4, dpi=300, fig.align='center'}
+print(params$coefficients_overlap_plot)
+```
+
+Coefficient Overlap
+```{r echo=F}
+params$coefficients_overlap%>%
+  knitr::kable(caption = "") 
+```
+
+## Regression analysis and Linearity
+### Regression Plot and Residuals
+ Linear Regression and Residuals Graph
+ 
+The regression line in blue, confidence band in gray and prediction band in dashed black line
+```{r, echo=F, message=FALSE, warning=FALSE, fig.height=3, fig.width=4, dpi=300, fig.align='center'}
+print(params$regression_plot)
+```
+
+```{r echo=F, fig.height=3, fig.width=4, dpi=300, message=FALSE, warning=FALSE, fig.align='center'}
+
+print(params$residual_plot)
+```
+
+Coefficient of determination
+```{r echo=F}
+params$coef.determination%>%
+  knitr::kable(caption = "") 
+```
+
+ Regression terms
+```{r echo=F}
+params$regression %>%
+  knitr::kable(caption = "")
+```
+
+Levene homogeineity test
+```{r echo=F}
+params$levene %>%
+  knitr::kable(caption = "") 
+```
+
+ Durbin-Watson test to auto-cooreleted errors
+```{r echo=F}
+params$durbin_watson %>%
+  knitr::kable(caption = "") 
+```
+
+ Shapiro-Wilk normality test
+```{r echo=F}
+params$shapiro_wilk %>%
+  knitr::kable(caption = "") 
+```
+
+ ANOVA of regression and lack-of-fit
+```{r echo=F}
+params$anova %>%
+  knitr::kable(caption = "") 
+```
+
+## Limits of detection and quantification
+#### LOD and LOQ with calibration curve method
+The formula used is LOD = 3.3s/b, and LOQ = 10s/b, where s is the residual standard deviation of a regression line and b the inclination.
+The values are in terms of concentration.
+```{r, echo=FALSE}
+params$limits_result %>%
+  knitr::kable(caption = "") 
+```
+
+
