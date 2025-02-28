@@ -104,43 +104,46 @@ server <- function(input, output, session) {
   #selectivity
   
   
-  # ReactiveVal para armazenar os dados da tabela
+  # ReactiveVal to store table data
   DF_estd <- reactiveVal(data.frame(
     concentration = numeric(5),
     response = numeric(5),
     stringsAsFactors = FALSE
   ))
   
-  # Renderiza a tabela inicial
+  # Render initial table
   output$table_estd <- renderRHandsontable({
     rhandsontable(DF_estd())
   })
   
-  # Atualiza os dados da tabela automaticamente
+  # upgrade table data 
   observe({
     if (!is.null(input$table_estd)) {
       DF_estd(hot_to_r(input$table_estd))
     }
   })
   
+  # ReactiveVal to store table data
   DF_std <- reactiveVal(data.frame(
     concentration = numeric(5),
     response = numeric(5),
     stringsAsFactors = FALSE
   ))
   
-  # Renderiza a tabela inicial
+  #  Render initial table
   output$table_std <- renderRHandsontable({
     rhandsontable(DF_std())
   })
   
-  # Atualiza os dados da tabela automaticamente
+  # upgrade table data 
   observe({
     if (!is.null(input$table_std)) {
       DF_std(hot_to_r(input$table_std))
     }
   })
 
+  
+  # Calculate outliers to External standard
   outliers_estd <- reactive({
     data_selected <- DF_estd()
     colnames(data_selected) <- c("x", "estd")
@@ -148,12 +151,13 @@ server <- function(input, output, session) {
     result_outliers_estd <-  outlierTest(model)
     return(result_outliers_estd)
   })
-
+ 
+  # Render result
   output$outliers_estd <- renderPrint({
     outliers_estd()
   })
   
-
+  # test status
   output$p_ouliers_estd <- renderUI({
     req(outliers_estd)
     tryCatch({
@@ -182,7 +186,7 @@ server <- function(input, output, session) {
     })
 
   })
-  
+  # Calculate outliers to standard additions
   outliers_std <- reactive({
     data_selected <- DF_std()
     colnames(data_selected) <- c("x", "std")
@@ -224,6 +228,8 @@ server <- function(input, output, session) {
 
     })
 
+  
+    # Create youden calibration data table input
 
     DF_youden <- reactiveVal(data.frame(
       volume = numeric(5),
@@ -231,18 +237,18 @@ server <- function(input, output, session) {
       stringsAsFactors = FALSE
     ))
     
-    # Renderiza a tabela inicial
     output$table_youden <- renderRHandsontable({
       rhandsontable(DF_youden())
     })
     
-    # Atualiza os dados da tabela automaticamente
+  
     observe({
       if (!is.null(input$table_youden)) {
         DF_youden(hot_to_r(input$table_youden))
       }
     })
   
+    # Calculate Youden coefficients
   youden_result_coef <- reactive({
     youden_data <- DF_youden()
     result <- calculate_coefficients_compare(youden_data, "volume", "response")
