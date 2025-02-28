@@ -8,7 +8,30 @@ library(mathjaxr)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Analytical Methods Validation",
-                  titleWidth = 300),
+                  titleWidth = 300 ,
+                  dropdownMenu(
+                    type = "messages",
+                    tags$li(
+                      tags$a(
+                        href = "https://github.com/m-amanda/Analytical-Methods-Validation-with-R",
+                        target = "_blank",
+                        style = "display: flex; align-items: center; gap: 8px; padding: 10px; text-decoration: none; color: black;",
+                        icon("github", class = "fa-2x"),  # Ícone do GitHub
+                        tags$span("Contribute on GitHub") # Texto ao lado do ícone
+                      )
+                    ),
+                    tags$li(
+                      tags$a(
+                        href = "mailto:amvprojectcontact@gmail.com?subject=Report+a+bug,+help",
+                        target = "_blank",
+                        style = "display: flex; align-items: center; gap: 8px; padding: 10px; text-decoration: none; color: black;",
+                        icon("question", class = "fa-2x"),  # Ícone do GitHub
+                        tags$span("Support") # Texto ao lado do ícone
+                      )
+                    )
+                  )
+                ),
+  
   ## Sidebar content
   dashboardSidebar(
     sidebarMenu(
