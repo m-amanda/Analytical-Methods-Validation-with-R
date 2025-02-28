@@ -6,10 +6,11 @@ output:
   word_document: default
 always_allow_html: true
 params:
-  dataset: NULL
+ 
   outliers_estd: NULL
   outliers_std: NULL
-  coefficients_overlap: NULL
+  coefficients_estd: NULL
+  coefficients_std: NULL
   coefficients_overlap_plot: NULL
   regression_plot: NULL
   residual_plot: NULL
@@ -20,6 +21,13 @@ params:
   shapiro_wilk: NULL
   anova: NULL
   limits_result: NULL
+  selected_tabs: NULL
+  ext.std.precision: NULL
+  ext.std.trueness: NULL
+  std.add.Q0: NULL
+  std.add.Q1: NULL
+  std.add.Q2: NULL
+  std.add.Q3: NULL
 ---
 
 ### Dataset Summary
@@ -28,18 +36,18 @@ params$dataset %>%
   knitr::kable(caption = "") 
 
 ```
+
 ## Selectivity
 ### Results to Matrix Effect
  Bonferroni Outliers Test to External Standard
 ```{r echo=F}
-params$outliers_estd %>%
-  knitr::kable(caption = "") 
+print(params$outliers_estd)
+
 ```
 
  Bonferroni Outliers Test to Standard Additions
 ```{r echo=F}
-params$outliers_std %>%
-  knitr::kable(caption = "") 
+print(params$outliers_std)
 ```
 
  Plot overlap 
@@ -49,10 +57,14 @@ params$outliers_std %>%
 print(params$coefficients_overlap_plot)
 ```
 
-Coefficient Overlap
+Confidance Interval of External Standard Coefficients
 ```{r echo=F}
-params$coefficients_overlap%>%
-  knitr::kable(caption = "") 
+print(params$coefficients_estd)
+```
+
+Confidance Interval of Standard Additions Coefficients
+```{r echo=F}
+print(params$coefficients_std)
 ```
 
 ## Regression analysis and Linearity
@@ -114,4 +126,34 @@ params$limits_result %>%
   knitr::kable(caption = "") 
 ```
 
-
+## Accuracy: Precision and Trueness
+### External Standard Analysis Method
+```{r, echo=FALSE}
+params$ext.std.precision %>%
+  knitr::kable(caption = "")  
+```
+```{r, echo=FALSE}
+params$ext.std.trueness %>%
+  knitr::kable(caption = "") 
+```
+### Standard Additions Analysis Method
+### Non-fortified sample
+```{r, echo=FALSE}
+params$std.add.Q0 %>%
+  knitr::kable(caption = "")  
+```
+###  Q1 fortified sample
+```{r, echo=FALSE}
+params$std.add.Q1 %>%
+  knitr::kable(caption = "")  
+```
+###  Q2 fortified sample
+```{r, echo=FALSE}
+params$std.add.Q2 %>%
+  knitr::kable(caption = "")  
+```
+###  Q3 fortified sample
+```{r, echo=FALSE}
+params$std.add.Q3 %>%
+  knitr::kable(caption = "")  
+```
